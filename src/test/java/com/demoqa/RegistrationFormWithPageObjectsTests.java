@@ -1,26 +1,35 @@
 package com.demoqa;
 
+
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.Locale;
+
+import static com.demoqa.utils.RandomUtils.*;
 
 
 public class RegistrationFormWithPageObjectsTests extends TestBase {
 
     @Test
     void practiceFormNewTest() {
-        String firstName = "Egor",
-                lastName = "Dobroskok",
-                userEmail = "egor_dobroskok@mail.ru",
-                gender = "Male",
-                phone = "9379997103",
-                birthDay = "21",
-                birthMonth = "June",
-                birthYear = "1994",
-                subjects = "History",
-                hobbies = "Music",
-                fileName = "exampleFile.jpg",
-                address = "Samara, Gagarina street, 35",
-                state = "NCR",
-                city = "Delhi";
+        Faker faker = new Faker(new Locale("en-US"));
+        File file = new File("src/test/resources/exampleFile.jpg");
+
+        String firstName = faker.name().firstName(),
+                lastName = faker.name().lastName(),
+                userEmail = faker.internet().emailAddress(),
+                gender = getRandomFromArray(gendersArray),
+                phone = faker.phoneNumber().subscriberNumber(10),
+                birthDay = generateDate()[0],
+                birthMonth = generateDate()[1],
+                birthYear = generateDate()[2],
+                subjects = getRandomFromArray(subjectsArray),
+                hobbies = getRandomFromArray(hobbiesArray),
+                address = faker.address().fullAddress(),
+                state = resultStateAndCity[0],
+                city = resultStateAndCity[1];
 
 
         registrationPage.openPage()
@@ -32,7 +41,7 @@ public class RegistrationFormWithPageObjectsTests extends TestBase {
                 .setBirthDate(birthDay, birthMonth, birthYear)
                 .setSubjects(subjects)
                 .setHobbies(hobbies)
-                .setFiles(fileName)
+                .setFiles(file.getName())
                 .setAddress(address)
                 .setState(state)
                 .setCity(city)
@@ -46,7 +55,7 @@ public class RegistrationFormWithPageObjectsTests extends TestBase {
                 .verifyTable("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
                 .verifyTable("Subjects", subjects)
                 .verifyTable("Hobbies", hobbies)
-                .verifyTable("Picture", fileName)
+                .verifyTable("Picture", file.getName())
                 .verifyTable("Address", address)
                 .verifyTable("State and City", state + " " + city);
 
