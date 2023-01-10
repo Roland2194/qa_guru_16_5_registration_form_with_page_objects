@@ -20,11 +20,6 @@ public class RandomUtils {
                     "Chemistry", "Computer Science", "Commerce", "Economics", "Civics",
                     "Hindi", "English", "History",},
             resultStateAndCity = getRandomFromTwiceArray(stateAndCity);
-
-    public static void main(String[] args) {
-        System.out.println(resultStateAndCity[0] + " " + resultStateAndCity[1]);
-    }
-
     public static String patternDate = "dd MMMM yyyy";
 
     public static String getRandomFromArray(String[] array) {
