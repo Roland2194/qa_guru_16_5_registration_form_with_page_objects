@@ -33,14 +33,7 @@ dependencies {
             'io.qameta.allure:allure-selenide:2.20.1')
 }
 
-tasks.withType(Test) {
-    systemProperties(System.getProperties())
+test {
     useJUnitPlatform()
-
-    testLogging {
-        lifecycle {
-            events "started", "skipped", "failed", "standard_error", "standard_out"
-            exceptionFormat "short"
-        }
-    }
+    systemProperties(System.getProperties())
 }
